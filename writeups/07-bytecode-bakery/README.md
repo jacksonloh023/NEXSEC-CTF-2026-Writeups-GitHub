@@ -4,11 +4,8 @@
 |---|---|
 | Challenge | Bytecode Bakery |
 | Category | Reverse Engineering |
-| Source PDF pages | 27–29 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
+| Team name | B2F1 |
 
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
 
 The bakery's oven runs its own tiny instruction set. The recipe card checks whether you
 know the secret ingredient list. Find the ingredients that bake a perfect loaf.
@@ -55,17 +52,11 @@ Original oven accepts input: True
 
 ## Source Figures
 
-![Original writeup figure — PDF page 27](../../assets/bytecode-bakery/figure-018.png)
+![Original writeup figure](../../assets/bytecode-bakery/figure-018.png)
 
-*Original writeup figure — PDF page 27*
+![Original writeup figure](../../assets/bytecode-bakery/figure-019.png)
 
-![Original writeup figure — PDF page 28](../../assets/bytecode-bakery/figure-019.png)
-
-*Original writeup figure — PDF page 28*
-
-![Original writeup figure — PDF page 28](../../assets/bytecode-bakery/figure-020.png)
-
-*Original writeup figure — PDF page 28*
+![Original writeup figure](../../assets/bytecode-bakery/figure-020.png)
 
 ![Original writeup figure — PDF page 29](../../assets/bytecode-bakery/figure-021.png)
 
