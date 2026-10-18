@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | n8n |
 | Category | Forensic |
-| Source PDF pages | 7–10 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 This one dropped a huge AES-encrypted ZIP in my lap along with a note ("Please answer all
 the questions i provided!") and a live socket that grades answers. The interactive service
@@ -141,6 +137,5 @@ n8n grader: all 14 questions Correct, flag returned
 
 ## Source Figures
 
-![Original writeup figure — PDF page 10](../../assets/n8n/figure-002.png)
+![Original writeup figure](../../assets/n8n/figure-002.png)
 
-*Original writeup figure — PDF page 10*
