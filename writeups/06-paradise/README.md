@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | Paradise |
 | Category | Crypto |
-| Source PDF pages | 22–26 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 ## What we were given
 
@@ -196,10 +192,6 @@ solve for.
 
 ## Source Figures
 
-![Original writeup figure — PDF page 22](../../assets/paradise/figure-016.png)
+![Original writeup figure](../../assets/paradise/figure-016.png)
 
-*Original writeup figure — PDF page 22*
-
-![Original writeup figure — PDF page 25](../../assets/paradise/figure-017.png)
-
-*Original writeup figure — PDF page 25*
+![Original writeup figure](../../assets/paradise/figure-017.png)
