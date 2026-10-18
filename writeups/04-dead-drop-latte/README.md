@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | Dead Drop Latte |
 | Category | Forensic |
-| Source PDF pages | 11–15 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 A corporate workstation tripped a SOC alert a few minutes after the user trying to
 order coffee from a website. Turns out it run malicious command after the user trying
@@ -94,26 +90,15 @@ nexsec26{l3ts_buy_s0me_c0ffee_2_stay_awake}
 
 ## Source Figures
 
-![Original writeup figure — PDF page 11](../../assets/dead-drop-latte/figure-003.png)
+![Original writeup figure](../../assets/dead-drop-latte/figure-003.png)
 
-*Original writeup figure — PDF page 11*
+![Original writeup figure](../../assets/dead-drop-latte/figure-004.png)
 
-![Original writeup figure — PDF page 12](../../assets/dead-drop-latte/figure-004.png)
+![Original writeup figure](../../assets/dead-drop-latte/figure-005.png)
 
-*Original writeup figure — PDF page 12*
+![Original writeup figure](../../assets/dead-drop-latte/figure-006.png)
 
-![Original writeup figure — PDF page 12](../../assets/dead-drop-latte/figure-005.png)
+![Original writeup figure](../../assets/dead-drop-latte/figure-007.png)
 
-*Original writeup figure — PDF page 12*
+![Original writeup figure](../../assets/dead-drop-latte/figure-008.png)
 
-![Original writeup figure — PDF page 13](../../assets/dead-drop-latte/figure-006.png)
-
-*Original writeup figure — PDF page 13*
-
-![Original writeup figure — PDF page 14](../../assets/dead-drop-latte/figure-007.png)
-
-*Original writeup figure — PDF page 14*
-
-![Original writeup figure — PDF page 14](../../assets/dead-drop-latte/figure-008.png)
-
-*Original writeup figure — PDF page 14*
