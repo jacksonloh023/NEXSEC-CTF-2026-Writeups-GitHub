@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | Flag Checker |
 | Category | Reverse Engineering |
-| Source PDF pages | 30–34 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 ## The setup
 
@@ -174,18 +170,11 @@ challenges all the time, and having the template ready makes the next one way fa
 
 ## Source Figures
 
-![Original writeup figure — PDF page 33](../../assets/flag-checker/figure-022.png)
+![Original writeup figure](../../assets/flag-checker/figure-022.png)
 
-*Original writeup figure — PDF page 33*
+![Original writeup figure](../../assets/flag-checker/figure-023.png)
 
-![Original writeup figure — PDF page 33](../../assets/flag-checker/figure-023.png)
+![Original writeup figure](../../assets/flag-checker/figure-024.png)
 
-*Original writeup figure — PDF page 33*
+![Original writeup figure](../../assets/flag-checker/figure-025.png)
 
-![Original writeup figure — PDF page 34](../../assets/flag-checker/figure-024.png)
-
-*Original writeup figure — PDF page 34*
-
-![Original writeup figure — PDF page 34](../../assets/flag-checker/figure-025.png)
-
-*Original writeup figure — PDF page 34*
