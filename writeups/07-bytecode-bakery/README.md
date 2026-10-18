@@ -58,6 +58,6 @@ Original oven accepts input: True
 
 ![Original writeup figure](../../assets/bytecode-bakery/figure-020.png)
 
-![Original writeup figure — PDF page 29](../../assets/bytecode-bakery/figure-021.png)
+![Original writeup figure](../../assets/bytecode-bakery/figure-021.png)
 
-*Original writeup figure — PDF page 29*
+
