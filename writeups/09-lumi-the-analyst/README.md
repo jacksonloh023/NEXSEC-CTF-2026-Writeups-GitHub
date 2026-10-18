@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Challenge | Lumi the Analyst |
-| Category | Misc / OT-ICS |
+| Category | Misc |
 | Team name | B2F1 |
 
 Lumi the Analyst handed me a tiny ZIP and pointed me at a live PLC: the job was to find the single
