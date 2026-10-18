@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | Ado |
 | Category | Web |
-| Source PDF pages | 1–3 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 Ado was an "Ado fan community" site, and it came as a source bundle (AdonisJS /
 TypeScript) alongside a live instance that greets you with a login wall. The theme hint
@@ -103,14 +99,12 @@ The flag string itself confirms the "4don1s" (Adonis) CVE theme.
 
 ## Recovered CTF flag
 
-nexsec26{Did_you_enjoy_DnD_song?kinda_g00d_actually_oh_btw_this_is_4don1s_cve_d6
-75e0183239518f848d5ea6bdfac3375e54f7608ebd1dda8662d39509a5f282}
+nexsec26{Did_you_enjoy_DnD_song?kinda_g00d_actually_oh_btw_this_is_4don1s_cve_d675e0183239518f848d5ea6bdfac3375e54f7608ebd1dda8662d39509a5f282}
 
 
 Ado attack-surface routes
 
 ## Source Figures
 
-![Original writeup figure — PDF page 3](../../assets/ado/figure-000.png)
+![Original writeup figure](../../assets/ado/figure-000.png)
 
-*Original writeup figure — PDF page 3*
