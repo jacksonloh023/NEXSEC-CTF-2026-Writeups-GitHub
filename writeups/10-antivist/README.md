@@ -3,12 +3,8 @@
 | Field | Value |
 |---|---|
 | Challenge | Antivist |
-| Category | Web / AI |
-| Source PDF pages | 37–42 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Category | Web |
+| Team name | B2F1 |
 
 ## What we were given
 
@@ -197,10 +193,7 @@ descriptions to the model as clearly-untrusted, quoted data rather than orders t
 
 ## Source Figures
 
-![Original writeup figure — PDF page 37](../../assets/antivist/figure-026.png)
+![Original writeup figure](../../assets/antivist/figure-026.png)
 
-*Original writeup figure — PDF page 37*
+![Original writeup figure](../../assets/antivist/figure-027.png)
 
-![Original writeup figure — PDF page 41](../../assets/antivist/figure-027.png)
-
-*Original writeup figure — PDF page 41*
