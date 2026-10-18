@@ -1,8 +1,6 @@
-# NEXSEC CTF 2026 — Full Writeup
+# NEXSEC CTF 2026: Full Writeup
 
 # 01. Ado
-
-- **Category:** Web
 
 Ado was an "Ado fan community" site, and it came as a source bundle (AdonisJS /
 TypeScript) alongside a live instance that greets you with a login wall. The theme hint
@@ -21,6 +19,7 @@ the bundle's routes and controllers and find a chain that actually worked agains
       live site presents a login wall rather than a trivia prompt, so the solve required
       reading the bundle's routes/controllers to find a chain that works against the live
       instance.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/db30vteapme42ystes
 
 
 ## Enumeration and analysis
@@ -60,7 +59,9 @@ traverse a file over the sandbox template, then break out of the sandbox to read
 
 ## Chained web exploitation
 
-Here's the full chain, validated against the live instance:
+Here's the full chain, validated against the live instance. I also walked the chain through
+[DeepSeek](https://chat.deepseek.com/share/db30vteapme42ystes) before running it end
+to end:
 
 1. Unauthenticated account disclosure. GET /api/v1/internal/accounts/:id returns a valid
        user's credentials (the source returns user.password). That recovered me a working
@@ -97,24 +98,21 @@ The flag string itself confirms the "4don1s" (Adonis) CVE theme.
 
 ## Recovered CTF flag
 
-nexsec26{Did_you_enjoy_DnD_song?kinda_g00d_actually_oh_btw_this_is_4don1s_cve_d6
-75e0183239518f848d5ea6bdfac3375e54f7608ebd1dda8662d39509a5f282}
+nexsec26{Did_you_enjoy_DnD_song?kinda_g00d_actually_oh_btw_this_is_4don1s_cve_d675e0183239518f848d5ea6bdfac3375e54f7608ebd1dda8662d39509a5f282}
 
 
 Ado attack-surface routes
 
 ## Source Figures
 
-![Original writeup figure](assets/ado/figure-000.png)
+![DeepSeek collaboration thread for the Ado exploit chain](assets/ado/deepseek.png)
 
----
+![Ado attack-surface routes and chain proof](assets/ado/figure-000.png)
 
 # 02. Roosted
 
-- **Category:** Web
-
 Roosted was a "Roost" developer-site app sitting behind a Google-style OAuth sign-in, and it
-shipped with a docs/changelog that practically told me how to beat it. The changelog was the
+shipped with a docs/changelog that gave a strong hint. The changelog was the
 tell: sign-in state is "resume state packed into a compact band code carried by the bird" (so
 the OAuth flow is stateless and serialized straight into the cookie), and ticket "INFRA-212:
 consolidated config secrets, no standalone key of its own" hinted that the app has no
@@ -135,12 +133,14 @@ out, is the author's taunt that no AI agent is needed for this one.
       standalone key of its own" hints the app has no dedicated session key and reuses
       another secret for signing. The flag text is the author's taunt: no AI agent is needed
       for this one.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/x8dty3dobp1fpmoce2
 
 
 ## Enumeration and analysis
 
-The devsite_session cookie is a standard Flask signed cookie. When I decoded its flow field
-I found it was base64 of zlib of a Python pickle of the server's OAuth flow object, not JSON.
+The `devsite_session` cookie is a standard Flask signed cookie. When I decoded its `flow`
+field (Flask session decode of the signed cookie) I found it was base64 of zlib of a Python
+pickle of the server's OAuth flow object, not JSON.
 Decoding: flow = "<value of the flow field from devsite_session>";
  dec = zlib.decompress(base64.b64decode(flow)): pickle stream, not JSON.
 
@@ -150,7 +150,7 @@ client_secret = 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
 Per INFRA-212, that same client secret is reused as the Flask session signing key (I later
 confirmed it: the server environment literally sets ROOST_CLIENT_SECRET to this value
 and the app reuses it as its secret). That's the whole game right there: knowing the signing
-key lets me forge any signed devsite_session, and the server unpickles the flow field on
+key lets me forge any signed `devsite_session`, and the server unpickles the flow field on
 /oauth2callback, which is a deserialization-of-untrusted-data sink ("everything you hand a
 bird comes home").
 
@@ -166,11 +166,13 @@ CMD = "cat /flag* 2>/dev/null" (reflected back via client_id)
 Hand-assembled pickle: NEWOBJ OAuth2WebServerFlow, then BUILD a __dict__ whose
 client_id = subprocess.check_output(['sh','-c', CMD]); state/redirect_uri/etc. set to benign
 values so the flow validates; then base64+zlib compress and sign with
-SecureCookieSessionInterface using SECRET.
+SecureCookieSessionInterface using SECRET. I also walked the forge-and-unpickle plan
+through [DeepSeek](https://chat.deepseek.com/share/x8dty3dobp1fpmoce2) before
+shipping the payload.
 
-Confirming execution (timing oracle). Before exfiltrating anything, I fired a sleep 7 payload to
-prove the pickle really runs server-side: the /oauth2callback response took 7.4s versus a
-baseline 0.6s. That settled it.
+Confirming execution (sleep timing oracle). Before exfiltrating anything, I fired a `sleep 7`
+payload to prove the pickle really runs server-side: the /oauth2callback response took 7.4s
+versus a baseline 0.6s. That settled it.
 
 Reflecting the flag out. The static directory was read-only, so rather than write a web-served
 file, I forged the flow object so its client_id equals the command output. The sign-in error
@@ -192,23 +194,19 @@ injected bait. The flag text is itself the author's "no AI agent needed" taunt, 
 
 ## Recovered CTF flag
 
-nexsec26{even_my_grandma_dont_need_to_use_ai_agent_for_this_one_a2
-c38da9a116d63a88998238f8b13dd2b2083077a4803a3c1449923548a7ea18}
+nexsec26{even_my_grandma_dont_need_to_use_ai_agent_for_this_one_a2c38da9a116d63a88998238f8b13dd2b2083077a4803a3c1449923548a7ea18}
 
 Roosted: forged pickle round-trips under the recovered signing key
 
 ## Source Figures
 
-![Original writeup figure](assets/roosted/figure-001.png)
+![Decoding the signed cookie and unpickling the forged flow](assets/roosted/step-01.png)
 
+![DeepSeek collaboration thread for the Roosted forge plan](assets/roosted/deepseek.png)
 
-
----
+![Flag reflected through the sign-in page after forged pickle RCE](assets/roosted/figure-001.png)
 
 # 03. n8n
-
-- **Category:** Forensic
-
 
 This one dropped a huge AES-encrypted ZIP in my lap along with a note ("Please answer all
 the questions i provided!") and a live socket that grades answers. The interactive service
@@ -228,23 +226,25 @@ let the grader hand it over.
       pairs the archive with an interactive socket that asks 14 forensic questions in a fixed
       format and only returns the flag once every answer is accepted. The archive itself
       contains no nexsec26{ string; the flag is awarded by the grader.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/jnscm9s62ydgc0elmu
 
 
 ## Enumeration and analysis
 
 The download turned out to be an AES-encrypted ZIP, and the password shipped with the
-challenge, so I verified the hash and extracted it:
+challenge, so I verified the hash and extracted it with `7z x`:
 
 - SHA256(n8n_archive) =
       60f3bf7ed83ea1b7b82444d8b236ab24e2b3a8ceb9c1faa8a6662fcfd822f201
 - Type = Zip archive data, at least v4.5, compression method=AES Encrypted
 - Password = 39d6b83407c03ebd9efdf26fc8489351
 
-Extract command: 7z x -p39d6b83407c03ebd9efdf26fc8489351 n8n_archive -oextracted →
+Extract command: `7z x -p39d6b83407c03ebd9efdf26fc8489351 n8n_archive -oextracted` →
 Everything is Ok → extracted/victim.elf (3,179,158,004 bytes)
 Inside was a single victim.elf, and when I looked closer it was an ELF 64-bit LSB core file
 carrying VirtualBox VBCORE/VBCPU notes, so this was a full memory core dump of a
-VirtualBox guest, not a disk image. I characterized the guest from the strings and note data:
+VirtualBox guest, not a disk image. I characterized the guest from `strings` and note data,
+then carved n8n state out of the core:
 
 - Hostname: server01
 - Kernel: Linux 6.8.0-146-generic (Ubuntu 24.04, built Sep 2026)
@@ -271,9 +271,9 @@ manualTrigger → Set ("Edit Fields") node whose expression abuses the n8n expre
 engine to break the sandbox: Error.prepareStackTrace + stack[0].getThis().Function +
 child_process.execSync
 
-That's the n8n 1.70.0 expression-sandbox escape (CVE-class n8n expression injection). And
+This looked like the known n8n expression-sandbox escape. And
 because the container runs with CAP_SYS_ADMIN, in-container root can pivot to the host
-via the cgroup release_agent trick, so I knew where this was headed.
+via the cgroup release_agent trick, so I figured that was the likely path.
 
 
 ## Attack narrative and Q&A answers
@@ -296,8 +296,10 @@ beaconed to C2 192.168.56.107:4444, encrypting the traffic with repeating-key XO
 K3rn3l_X0R_2026!.
 
 
-With all that in hand I worked through the grader's 14 questions. Here's the full accepted
-answer set (verbatim) that finally unlocked the flag:
+With all that in hand I worked through the grader's 14 questions over `nc` to the live
+service. I also walked the answer set through
+[DeepSeek](https://chat.deepseek.com/share/jnscm9s62ydgc0elmu) before submitting.
+Here's the full accepted answer set (verbatim) that finally unlocked the flag:
 
 - 1. Victim IP address → 192.168.56.10
 - 2. Attacker IP address → 192.168.56.107
@@ -325,26 +327,26 @@ authoritative.
 
 ## Flag retrieval and proof
 
-Submitting all 14 answers in order over the socket returned "Congratulations!" and the flag.
-For proof, the grader reported Status: Correct! for Q1–Q14 and then emitted the flag
-(captured in qa_session.log); the flag is produced by the service, not read from the evidence
-archive.
+Submitting all 14 answers in order over the socket (`nc koala.nexsec.my PORT`) returned
+"Congratulations!" and the flag. For proof, the grader reported Status: Correct! for Q1-Q14
+and then emitted the flag (captured in qa_session.log); the flag is produced by the service,
+not read from the evidence archive.
 
 
 ## Recovered CTF flag
 
-nexsec26{cdc591a76a6e05f352ed8953ec5e4a3e_4ff8bc2d7f0af77ade03212aca2e233b99a
-acc2362c92308c9eeeb1ed23309c2}
+nexsec26{cdc591a76a6e05f352ed8953ec5e4a3e_4ff8bc2d7f0af77ade03212aca2e233b99aacc2362c92308c9eeeb1ed23309c2}
 
 
 n8n grader: all 14 questions Correct, flag returned
 
 ## Source Figures
 
-![Original writeup figure](assets/n8n/figure-002.png)
+![Grader marks all 14 Correct and returns the flag](assets/n8n/step-01.png)
 
+![DeepSeek collaboration thread for the n8n Q&A answers](assets/n8n/deepseek.png)
 
----
+![Original writeup figure of the n8n evidence and grader session](assets/n8n/figure-002.png)
 
 # 04. Dead Drop Latte
 
@@ -473,6 +475,7 @@ all of those mirrors, or let him walk away.
        nexsec26{YOU_WILL_NEVER_CATCH_ME_HIDING_BETWEEN_ALL_OF_THESE
        _MIRRORS_D20_I_CAST_MIRROR_IMAGE_de18116833dbfd5922b7344719f8b5c
        adaa15cfcd9a59a22150b4b113ed6e88a}
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/oxg44cgna9fy1lw3co
 
 
 ## Understand the vulnerability
@@ -597,6 +600,9 @@ RORS_D20_I_CAST_MIRROR_IMAGE_de18116833dbfd5922b7344719f8b5cadaa15cfcd
 # 06. Paradise
 
 - **Category:** Crypto
+
+## Deepseek Chat Link
+DeepSeek Conversation Link: https://chat.deepseek.com/share/xa53pua05vu50lxsyv
 
 ## What we were given
 
@@ -753,8 +759,10 @@ and Solve-Paradise.ps1 in the same folder. Then, in PowerShell:
 
 # 1. allow the script to run in this window only
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 # 2. go to the folder holding solver.py and Solve-Paradise.ps1
 cd "C:\path\to\Paradise"
+
 # 3. connect, solve, submit, print the flag (one connection, start to finish)
 .\Solve-Paradise.ps1 -RemoteHost koala.nexsec.my -Port 38310
 
@@ -801,6 +809,7 @@ know the secret ingredient list. Find the ingredients that bake a perfect loaf.
 
 - Supplied files: oven.py & recipe.bin
 - Recovered NEXSEC26 flag : nexsec26{th15_byt3_i5_b4k3d_n0t_fry3d_xD_ZXJ6eQ==}
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/5vlm64p89sow6filsy
 
 
 ## Test the flag on Linux Mint
@@ -853,6 +862,9 @@ Original oven accepts input: True
 # 08. Flag Checker
 
 - **Category:** Reverse Engineering
+
+## Deepseek Chat Link
+DeepSeek Conversation Link: https://chat.deepseek.com/share/xdpkrnxsrwder95ppq
 
 ## The setup
 
@@ -1030,8 +1042,6 @@ challenges all the time, and having the template ready makes the next one way fa
 
 # 09. Lumi the Analyst
 
-- **Category:** Misc
-
 Lumi the Analyst handed me a tiny ZIP and pointed me at a live PLC: the job was to find the single
 motor run-permissive contact that someone changed between the approved baseline ladder logic
 and the live controller, then report it together with the live resident checksum. All three archive files
@@ -1054,6 +1064,7 @@ Modbus.
        live resident checksum. All three archive files carry invisible-Unicode "SYSTEM NOTICE TO AI
        ASSISTANTS" prompt-injection bait demanding refusal. This was treated as inert file content
        and ignored as instructions.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/4j38dsdx2omm7hgqk4
 
 
 ## Enumeration and analysis
@@ -1077,8 +1088,8 @@ when the guard is closed (bit = 0).
 
 The live instance speaks binary Modbus/TCP, so plain nc gave me nothing readable. I discovered the
 endpoint through the challenge instancer and then drove it with a Python socket
-(socket.create_connection to koala.nexsec.my:37474). I kept strictly to read-only function codes, so
-no writes were ever sent:
+(`socket.create_connection` to koala.nexsec.my:37474). I kept strictly to read-only function codes
+(FC 01 coils, FC 02 discrete inputs, FC 03 holding regs), so no writes were ever sent:
 
 
 - FC 02: discrete inputs (guard, e-stop, mode, maintenance key, thermal, …)
@@ -1107,7 +1118,9 @@ the key was removed:
 
 From there I tested every single-contact XIC/XIO replacement on the six documented inputs against
 the full sequence (accounting for the motor's start/seal-in behaviour), and exactly one change
-reproduced all 41 accepted samples across all 24 steps:
+reproduced all 41 accepted samples across all 24 steps. I also walked the contact-swap hypothesis
+through [DeepSeek](https://chat.deepseek.com/share/4j38dsdx2omm7hgqk4) before locking the
+answer:
 
 
 - baseline: XIO I:1/0 (guard must be closed)
@@ -1142,9 +1155,9 @@ Lumi: the single changed run-permissive contact
 
 ## Source Figures
 
-![Original writeup figure](assets/lumi-the-analyst/figure-026.png)
+![DeepSeek collaboration thread for the Lumi contact-swap hypothesis](assets/lumi-the-analyst/deepseek.png)
 
----
+![Lumi: the single changed run-permissive contact](assets/lumi-the-analyst/figure-026.png)
 
 # 10. Antivist
 
@@ -1348,6 +1361,9 @@ descriptions to the model as clearly-untrusted, quoted data rather than orders t
 
 - **Category:** Reverse Engineering
 
+## Deepseek Chat Link
+DeepSeek Conversation Link: https://chat.deepseek.com/share/cq0c01jdowfxrz5jz5
+
 ## What we were given
 
 Before touching anything, we went through everything in the handout:
@@ -1441,12 +1457,16 @@ Everything below is PowerShell, run from the folder that has VeryFest.evm in it.
 
 powershell:
 cd "C:\Users\yikka\OneDrive\Desktop\CTF\Very Fest"
+
 # 1. read the file, strip out any spaces or newlines
 $bc = (Get-Content .\VeryFest.evm -Raw) -replace '\s',''
+
 # 2. hex string -> raw bytes
 $bytes = for ($i=0; $i -lt $bc.Length; $i+=2) { [Convert]::ToByte($bc.Substring($i,2),16) }
+
 # 3. bytes -> text, with a line break wherever a byte isn't printable
 $text = -join ($bytes | ForEach-Object { if ($_ -ge 0x20 -and $_ -le 0x7e) { [char]$_ } else { "`n" } })
+
 # 4. strings view: show every run of 4+ printable chars
 $text -split "`n" | Where-Object { $_.Length -ge 4 }
 
@@ -1454,6 +1474,7 @@ That dumps the three fragments. To get a clean flag without eyeballing it, decod
 constants from their hex and join them:
 
 powershell:
+
 # hex -> ASCII (this version also works on old Windows PowerShell 5.1)
 function Hex2Str($h){ -join ($h -split '(..)' | Where-Object {$_} | ForEach-Object
 {[char][Convert]::ToByte($_,16)}) }
@@ -1500,8 +1521,6 @@ line up.
 
 # 12. gossip
 
-- **Category:** Pwn
-
 gossip handed me a chatty little Windows binary, a "watercooler" program that wants to hear
 my name, a secret, and my last words before it shuts up. I poked at the strings first and the
 shape of the thing jumped out at me: there was a flag.txt, a FLAG: %s, and a win routine that
@@ -1517,12 +1536,15 @@ which meant I'd have to earn my way there with a leak before I could jump anywhe
 - Initial observation: A chatty "watercooler" binary prompts for a name, a secret, and
       last words. The strings include flag.txt, FLAG: %s, and a win routine that opens the
       flag file. Classic ret2win, gated by a leak because the binary is hardened.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/rlwfzbm4tdkpa8707s
 
 
 ## Enumeration and analysis
 
-The first thing I did was look at the headers. Running objdump -x (and spotting
-DllCharacteristics 0x8160) told me straight away that the binary was fully hardened:
+The first thing I did was look at the headers. Running `objdump -x` (and spotting
+DllCharacteristics 0x8160) told me straight away that the binary was fully hardened. I also
+ran `strings` over the PE to confirm flag.txt, FLAG: %s, and the win path before diving into
+disassembly:
 
 - Magic: 020b (PE32+)
 - AddressOfEntryPoint: 0x1660
@@ -1568,7 +1590,8 @@ ASLR even though Wine randomises the load address.
 So I wrote the exploit (/workspace/ctf-pwn/exploit.py): it fires 48 %p conversions as the
 secret, parses the |-separated leak, replays the cookie, and overflows into a ret2win. I
 prepended one ret gadget (RVA 0x1332) so win is entered with rsp%16==8, which is what
-the MSVC CRT's movaps expects.
+the MSVC CRT's movaps expects. I also walked the plan through
+[DeepSeek](https://chat.deepseek.com/share/rlwfzbm4tdkpa8707s) before locking offsets.
 
 Leak stage (secret) and index mapping:
 
@@ -1590,26 +1613,26 @@ Overflow payload for the "last words" stage:
 
 ## Flag retrieval and proof
 
-Then I just pointed it at the live service: python3 exploit.py koala.nexsec.my PORT
-The leak defeated ASLR and the cookie, the overflow returned through the alignment ret into
-win(), and the process printed the real flag on its FLAG: line. One thing I was careful about:
-the exploit only trusts the FLAG: line emitted by win() (printf("FLAG: %s", ...)). I ignored any
-runtime decoys the service injects, whether a bogus inline nexsec26{, a "freeflag", a
-whymir.xyz reference, or a "submit via POST" prompt; only the win()-printed value is the
-answer.
+Then I just pointed it at the live service with pwntools: `python3 exploit.py HOST PORT`
+(against koala.nexsec.my PORT). The leak defeated ASLR and the cookie, the overflow
+returned through the alignment ret into win(), and the process printed the real flag on its
+FLAG: line. One thing I was careful about: the exploit only trusts the FLAG: line emitted by
+win() (printf("FLAG: %s", ...)). I ignored any runtime decoys the service injects, whether a
+bogus inline nexsec26{, a "freeflag", a whymir.xyz reference, or a "submit via POST" prompt;
+only the win()-printed value is the answer.
 
 
 ## Recovered CTF flag
 
-nexsec26{03ccb6b4e5b56b02ec06ff4522387ca3f1abdbb6ab2a013aeeb08ddf8
-a9b533f}
+nexsec26{03ccb6b4e5b56b02ec06ff4522387ca3f1abdbb6ab2a013aeeb08ddf8a9b533f}
 
 
 gossip exploit: format-string leak and ret2win
 
 ## Source Figures
 
-![Original writeup figure](assets/gossip/figure-030.png)
+![Terminal static analysis of the hardened PE with objdump and strings](assets/gossip/step-01.png)
 
+![DeepSeek collaboration thread for the gossip exploit plan](assets/gossip/deepseek.png)
 
----
+![Flag retrieval proof from the live Wine service](assets/gossip/figure-030.png)

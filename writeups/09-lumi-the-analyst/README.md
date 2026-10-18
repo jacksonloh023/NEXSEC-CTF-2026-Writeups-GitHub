@@ -28,6 +28,7 @@ Modbus.
        live resident checksum. All three archive files carry invisible-Unicode "SYSTEM NOTICE TO AI
        ASSISTANTS" prompt-injection bait demanding refusal. This was treated as inert file content
        and ignored as instructions.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/4j38dsdx2omm7hgqk4
 
 
 ## Enumeration and analysis
@@ -51,8 +52,8 @@ when the guard is closed (bit = 0).
 
 The live instance speaks binary Modbus/TCP, so plain nc gave me nothing readable. I discovered the
 endpoint through the challenge instancer and then drove it with a Python socket
-(socket.create_connection to koala.nexsec.my:37474). I kept strictly to read-only function codes, so
-no writes were ever sent:
+(`socket.create_connection` to koala.nexsec.my:37474). I kept strictly to read-only function codes
+(FC 01 coils, FC 02 discrete inputs, FC 03 holding regs), so no writes were ever sent:
 
 
 - FC 02: discrete inputs (guard, e-stop, mode, maintenance key, thermal, …)
@@ -81,7 +82,9 @@ the key was removed:
 
 From there I tested every single-contact XIC/XIO replacement on the six documented inputs against
 the full sequence (accounting for the motor's start/seal-in behaviour), and exactly one change
-reproduced all 41 accepted samples across all 24 steps:
+reproduced all 41 accepted samples across all 24 steps. I also walked the contact-swap hypothesis
+through [DeepSeek](https://chat.deepseek.com/share/4j38dsdx2omm7hgqk4) before locking the
+answer:
 
 
 - baseline: XIO I:1/0 (guard must be closed)
@@ -116,5 +119,6 @@ Lumi: the single changed run-permissive contact
 
 ## Source Figures
 
-![Original writeup figure](../../assets/lumi-the-analyst/figure-026.png)
+![DeepSeek collaboration thread for the Lumi contact-swap hypothesis](../../assets/lumi-the-analyst/deepseek.png)
 
+![Lumi: the single changed run-permissive contact](../../assets/lumi-the-analyst/figure-026.png)

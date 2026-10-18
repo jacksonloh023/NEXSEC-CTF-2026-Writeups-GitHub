@@ -6,6 +6,9 @@
 | Category | Reverse Engineering |
 | Team name | B2F1 |
 
+## Deepseek Chat Link
+DeepSeek Conversation Link: https://chat.deepseek.com/share/cq0c01jdowfxrz5jz5
+
 ## What we were given
 
 Before touching anything, we went through everything in the handout:

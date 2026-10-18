@@ -23,6 +23,7 @@ the bundle's routes and controllers and find a chain that actually worked agains
       live site presents a login wall rather than a trivia prompt, so the solve required
       reading the bundle's routes/controllers to find a chain that works against the live
       instance.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/db30vteapme42ystes
 
 
 ## Enumeration and analysis
@@ -62,7 +63,9 @@ traverse a file over the sandbox template, then break out of the sandbox to read
 
 ## Chained web exploitation
 
-Here's the full chain, validated against the live instance:
+Here's the full chain, validated against the live instance. I also walked the chain through
+[DeepSeek](https://chat.deepseek.com/share/db30vteapme42ystes) before running it end
+to end:
 
 1. Unauthenticated account disclosure. GET /api/v1/internal/accounts/:id returns a valid
        user's credentials (the source returns user.password). That recovered me a working
@@ -106,5 +109,6 @@ Ado attack-surface routes
 
 ## Source Figures
 
-![Original writeup figure](../../assets/ado/figure-000.png)
+![DeepSeek collaboration thread for the Ado exploit chain](../../assets/ado/deepseek.png)
 
+![Ado attack-surface routes and chain proof](../../assets/ado/figure-000.png)

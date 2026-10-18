@@ -24,23 +24,25 @@ let the grader hand it over.
       pairs the archive with an interactive socket that asks 14 forensic questions in a fixed
       format and only returns the flag once every answer is accepted. The archive itself
       contains no nexsec26{ string; the flag is awarded by the grader.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/jnscm9s62ydgc0elmu
 
 
 ## Enumeration and analysis
 
 The download turned out to be an AES-encrypted ZIP, and the password shipped with the
-challenge, so I verified the hash and extracted it:
+challenge, so I verified the hash and extracted it with `7z x`:
 
 - SHA256(n8n_archive) =
       60f3bf7ed83ea1b7b82444d8b236ab24e2b3a8ceb9c1faa8a6662fcfd822f201
 - Type = Zip archive data, at least v4.5, compression method=AES Encrypted
 - Password = 39d6b83407c03ebd9efdf26fc8489351
 
-Extract command: 7z x -p39d6b83407c03ebd9efdf26fc8489351 n8n_archive -oextracted →
+Extract command: `7z x -p39d6b83407c03ebd9efdf26fc8489351 n8n_archive -oextracted` →
 Everything is Ok → extracted/victim.elf (3,179,158,004 bytes)
 Inside was a single victim.elf, and when I looked closer it was an ELF 64-bit LSB core file
 carrying VirtualBox VBCORE/VBCPU notes, so this was a full memory core dump of a
-VirtualBox guest, not a disk image. I characterized the guest from the strings and note data:
+VirtualBox guest, not a disk image. I characterized the guest from `strings` and note data,
+then carved n8n state out of the core:
 
 - Hostname: server01
 - Kernel: Linux 6.8.0-146-generic (Ubuntu 24.04, built Sep 2026)
@@ -67,9 +69,9 @@ manualTrigger → Set ("Edit Fields") node whose expression abuses the n8n expre
 engine to break the sandbox: Error.prepareStackTrace + stack[0].getThis().Function +
 child_process.execSync
 
-That's the n8n 1.70.0 expression-sandbox escape (CVE-class n8n expression injection). And
+This looked like the known n8n expression-sandbox escape. And
 because the container runs with CAP_SYS_ADMIN, in-container root can pivot to the host
-via the cgroup release_agent trick, so I knew where this was headed.
+via the cgroup release_agent trick, so I figured that was the likely path.
 
 
 ## Attack narrative and Q&A answers
@@ -92,8 +94,10 @@ beaconed to C2 192.168.56.107:4444, encrypting the traffic with repeating-key XO
 K3rn3l_X0R_2026!.
 
 
-With all that in hand I worked through the grader's 14 questions. Here's the full accepted
-answer set (verbatim) that finally unlocked the flag:
+With all that in hand I worked through the grader's 14 questions over `nc` to the live
+service. I also walked the answer set through
+[DeepSeek](https://chat.deepseek.com/share/jnscm9s62ydgc0elmu) before submitting.
+Here's the full accepted answer set (verbatim) that finally unlocked the flag:
 
 - 1. Victim IP address → 192.168.56.10
 - 2. Attacker IP address → 192.168.56.107
@@ -121,21 +125,23 @@ authoritative.
 
 ## Flag retrieval and proof
 
-Submitting all 14 answers in order over the socket returned "Congratulations!" and the flag.
-For proof, the grader reported Status: Correct! for Q1–Q14 and then emitted the flag
-(captured in qa_session.log); the flag is produced by the service, not read from the evidence
-archive.
+Submitting all 14 answers in order over the socket (`nc koala.nexsec.my PORT`) returned
+"Congratulations!" and the flag. For proof, the grader reported Status: Correct! for Q1-Q14
+and then emitted the flag (captured in qa_session.log); the flag is produced by the service,
+not read from the evidence archive.
 
 
 ## Recovered CTF flag
 
-nexsec26{cdc591a76a6e05f352ed8953ec5e4a3e_4ff8bc2d7f0af77ade03212aca2e233b99a
-acc2362c92308c9eeeb1ed23309c2}
+nexsec26{cdc591a76a6e05f352ed8953ec5e4a3e_4ff8bc2d7f0af77ade03212aca2e233b99aacc2362c92308c9eeeb1ed23309c2}
 
 
 n8n grader: all 14 questions Correct, flag returned
 
 ## Source Figures
 
-![Original writeup figure](../../assets/n8n/figure-002.png)
+![Grader marks all 14 Correct and returns the flag](../../assets/n8n/step-01.png)
 
+![DeepSeek collaboration thread for the n8n Q&A answers](../../assets/n8n/deepseek.png)
+
+![Original writeup figure of the n8n evidence and grader session](../../assets/n8n/figure-002.png)

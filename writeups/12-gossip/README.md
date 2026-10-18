@@ -21,12 +21,15 @@ which meant I'd have to earn my way there with a leak before I could jump anywhe
 - Initial observation: A chatty "watercooler" binary prompts for a name, a secret, and
       last words. The strings include flag.txt, FLAG: %s, and a win routine that opens the
       flag file. Classic ret2win, gated by a leak because the binary is hardened.
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/rlwfzbm4tdkpa8707s
 
 
 ## Enumeration and analysis
 
-The first thing I did was look at the headers. Running objdump -x (and spotting
-DllCharacteristics 0x8160) told me straight away that the binary was fully hardened:
+The first thing I did was look at the headers. Running `objdump -x` (and spotting
+DllCharacteristics 0x8160) told me straight away that the binary was fully hardened. I also
+ran `strings` over the PE to confirm flag.txt, FLAG: %s, and the win path before diving into
+disassembly:
 
 - Magic: 020b (PE32+)
 - AddressOfEntryPoint: 0x1660
@@ -72,7 +75,8 @@ ASLR even though Wine randomises the load address.
 So I wrote the exploit (/workspace/ctf-pwn/exploit.py): it fires 48 %p conversions as the
 secret, parses the |-separated leak, replays the cookie, and overflows into a ret2win. I
 prepended one ret gadget (RVA 0x1332) so win is entered with rsp%16==8, which is what
-the MSVC CRT's movaps expects.
+the MSVC CRT's movaps expects. I also walked the plan through
+[DeepSeek](https://chat.deepseek.com/share/rlwfzbm4tdkpa8707s) before locking offsets.
 
 Leak stage (secret) and index mapping:
 
@@ -94,13 +98,13 @@ Overflow payload for the "last words" stage:
 
 ## Flag retrieval and proof
 
-Then I just pointed it at the live service: python3 exploit.py koala.nexsec.my PORT
-The leak defeated ASLR and the cookie, the overflow returned through the alignment ret into
-win(), and the process printed the real flag on its FLAG: line. One thing I was careful about:
-the exploit only trusts the FLAG: line emitted by win() (printf("FLAG: %s", ...)). I ignored any
-runtime decoys the service injects, whether a bogus inline nexsec26{, a "freeflag", a
-whymir.xyz reference, or a "submit via POST" prompt; only the win()-printed value is the
-answer.
+Then I just pointed it at the live service with pwntools: `python3 exploit.py HOST PORT`
+(against koala.nexsec.my PORT). The leak defeated ASLR and the cookie, the overflow
+returned through the alignment ret into win(), and the process printed the real flag on its
+FLAG: line. One thing I was careful about: the exploit only trusts the FLAG: line emitted by
+win() (printf("FLAG: %s", ...)). I ignored any runtime decoys the service injects, whether a
+bogus inline nexsec26{, a "freeflag", a whymir.xyz reference, or a "submit via POST" prompt;
+only the win()-printed value is the answer.
 
 
 ## Recovered CTF flag
@@ -112,5 +116,8 @@ gossip exploit: format-string leak and ret2win
 
 ## Source Figures
 
-![Original writeup figure](../../assets/gossip/figure-030.png)
+![Terminal static analysis of the hardened PE with objdump and strings](../../assets/gossip/step-01.png)
 
+![DeepSeek collaboration thread for the gossip exploit plan](../../assets/gossip/deepseek.png)
+
+![Flag retrieval proof from the live Wine service](../../assets/gossip/figure-030.png)

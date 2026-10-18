@@ -19,6 +19,7 @@ all of those mirrors, or let him walk away.
 - Supplied file: chall.py
 - Recovered NEXSEC26 flag :
        nexsec26{YOU_WILL_NEVER_CATCH_ME_HIDING_BETWEEN_ALL_OF_THESE_MIRRORS_D20_I_CAST_MIRROR_IMAGE_de18116833dbfd5922b7344719f8b5cadaa15cfcd9a59a22150b4b113ed6e88a}
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/oxg44cgna9fy1lw3co
 
 
 ## Understand the vulnerability

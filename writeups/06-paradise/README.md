@@ -6,6 +6,9 @@
 | Category | Crypto |
 | Team name | B2F1 |
 
+## Deepseek Chat Link
+DeepSeek Conversation Link: https://chat.deepseek.com/share/xa53pua05vu50lxsyv
+
 ## What we were given
 
 One file, chall.py, and a netcat endpoint. Reading the source, here's exactly what the

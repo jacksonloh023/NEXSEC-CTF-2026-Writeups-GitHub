@@ -6,6 +6,9 @@
 | Category | Reverse Engineering |
 | Team name | B2F1 |
 
+## Deepseek Chat Link
+DeepSeek Conversation Link: https://chat.deepseek.com/share/xdpkrnxsrwder95ppq
+
 ## The setup
 
 The challenge card was pure bait: "My friend just downloaded GTA FLAGCHECKER VI for his new

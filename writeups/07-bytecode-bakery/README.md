@@ -14,6 +14,7 @@ know the secret ingredient list. Find the ingredients that bake a perfect loaf.
 
 - Supplied files: oven.py & recipe.bin
 - Recovered NEXSEC26 flag : nexsec26{th15_byt3_i5_b4k3d_n0t_fry3d_xD_ZXJ6eQ==}
+- DeepSeek Conversation Link: https://chat.deepseek.com/share/5vlm64p89sow6filsy
 
 
 ## Test the flag on Linux Mint
