@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | Lumi the Analyst |
 | Category | Misc / OT-ICS |
-| Source PDF pages | 35–37 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 Lumi the Analyst handed me a tiny ZIP and pointed me at a live PLC: the job was to find the single
 motor run-permissive contact that someone changed between the approved baseline ladder logic
@@ -120,6 +116,5 @@ Lumi: the single changed run-permissive contact
 
 ## Source Figures
 
-![Original writeup figure — PDF page 37](../../assets/lumi-the-analyst/figure-026.png)
+![Original writeup figure](../../assets/lumi-the-analyst/figure-026.png)
 
-*Original writeup figure — PDF page 37*
