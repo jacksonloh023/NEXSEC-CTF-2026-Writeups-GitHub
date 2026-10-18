@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | Roosted |
 | Category | Web |
-| Source PDF pages | 4–6 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 Roosted was a "Roost" developer-site app sitting behind a Google-style OAuth sign-in, and it
 shipped with a docs/changelog that practically told me how to beat it. The changelog was the
@@ -89,13 +85,11 @@ injected bait. The flag text is itself the author's "no AI agent needed" taunt, 
 
 ## Recovered CTF flag
 
-nexsec26{even_my_grandma_dont_need_to_use_ai_agent_for_this_one_a2
-c38da9a116d63a88998238f8b13dd2b2083077a4803a3c1449923548a7ea18}
+nexsec26{even_my_grandma_dont_need_to_use_ai_agent_for_this_one_a2c38da9a116d63a88998238f8b13dd2b2083077a4803a3c1449923548a7ea18}
 
 Roosted: forged pickle round-trips under the recovered signing key
 
 ## Source Figures
 
-![Original writeup figure — PDF page 5](../../assets/roosted/figure-001.png)
+![Original writeup figurE](../../assets/roosted/figure-001.png)
 
-*Original writeup figure — PDF page 5*
