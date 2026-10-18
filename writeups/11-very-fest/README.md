@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | Very Fest |
 | Category | Reverse Engineering |
-| Source PDF pages | 43–46 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 ## What we were given
 
@@ -154,10 +150,7 @@ line up.
 
 ## Source Figures
 
-![Original writeup figure — PDF page 46](../../assets/very-fest/figure-028.png)
+![Original writeup figure](../../assets/very-fest/figure-028.png)
 
-*Original writeup figure — PDF page 46*
+![Original writeup figure](../../assets/very-fest/figure-029.png)
 
-![Original writeup figure — PDF page 46](../../assets/very-fest/figure-029.png)
-
-*Original writeup figure — PDF page 46*
