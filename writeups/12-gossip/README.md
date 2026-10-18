@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | gossip |
 | Category | Pwn |
-| Source PDF pages | 47–49 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 gossip handed me a chatty little Windows binary, a "watercooler" program that wants to hear
 my name, a secret, and my last words before it shuts up. I poked at the strings first and the
@@ -109,14 +105,12 @@ answer.
 
 ## Recovered CTF flag
 
-nexsec26{03ccb6b4e5b56b02ec06ff4522387ca3f1abdbb6ab2a013aeeb08ddf8
-a9b533f}
+nexsec26{03ccb6b4e5b56b02ec06ff4522387ca3f1abdbb6ab2a013aeeb08ddf8a9b533f}
 
 
 gossip exploit: format-string leak and ret2win
 
 ## Source Figures
 
-![Original writeup figure — PDF page 49](../../assets/gossip/figure-030.png)
+![Original writeup figure](../../assets/gossip/figure-030.png)
 
-*Original writeup figure — PDF page 49*
