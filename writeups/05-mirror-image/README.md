@@ -4,11 +4,7 @@
 |---|---|
 | Challenge | Mirror Image |
 | Category | Crypto |
-| Source PDF pages | 16–21 |
-| Team name | Not specified in the source PDF |
-| Solver names | Not specified in the source PDF |
-
-> This document faithfully formats the technical content from the supplied local PDF. No technical steps, commands, evidence, or flags were added.
+| Team name | B2F1 |
 
 The archmage knew the party was coming, so he raised a hall of mirrors and
 vanished into it with a single spell: Mirror Image.
@@ -22,9 +18,7 @@ all of those mirrors, or let him walk away.
 
 - Supplied file: chall.py
 - Recovered NEXSEC26 flag :
-       nexsec26{YOU_WILL_NEVER_CATCH_ME_HIDING_BETWEEN_ALL_OF_THESE
-       _MIRRORS_D20_I_CAST_MIRROR_IMAGE_de18116833dbfd5922b7344719f8b5c
-       adaa15cfcd9a59a22150b4b113ed6e88a}
+       nexsec26{YOU_WILL_NEVER_CATCH_ME_HIDING_BETWEEN_ALL_OF_THESE_MIRRORS_D20_I_CAST_MIRROR_IMAGE_de18116833dbfd5922b7344719f8b5cadaa15cfcd9a59a22150b4b113ed6e88a}
 
 
 ## Understand the vulnerability
@@ -124,36 +118,20 @@ equations. A successful candidate must also pass the AES-GCM authentication chec
 
 Output:
 FLAG:
-nexsec26{YOU_WILL_NEVER_CATCH_ME_HIDING_BETWEEN_ALL_OF_THESE_MIR
-RORS_D20_I_CAST_MIRROR_IMAGE_de18116833dbfd5922b7344719f8b5cadaa15cfcd
-9a59a22150b4b113ed6e88a}
+nexsec26{YOU_WILL_NEVER_CATCH_ME_HIDING_BETWEEN_ALL_OF_THESE_MIRRORS_D20_I_CAST_MIRROR_IMAGE_de18116833dbfd5922b7344719f8b5cadaa15cfcd9a59a22150b4b113ed6e88a}
 
 ## Source Figures
 
-![Original writeup figure — PDF page 16](../../assets/mirror-image/figure-009.png)
+![Original writeup figure](../../assets/mirror-image/figure-009.png)
 
-*Original writeup figure — PDF page 16*
+![Original writeup figure](../../assets/mirror-image/figure-010.png)
 
-![Original writeup figure — PDF page 17](../../assets/mirror-image/figure-010.png)
+![Original writeup figure](../../assets/mirror-image/figure-011.png)
 
-*Original writeup figure — PDF page 17*
+![Original writeup figure](../../assets/mirror-image/figure-012.png)
 
-![Original writeup figure — PDF page 18](../../assets/mirror-image/figure-011.png)
+![Original writeup figure](../../assets/mirror-image/figure-013.png)
 
-*Original writeup figure — PDF page 18*
+![Original writeup figurE](../../assets/mirror-image/figure-014.png)
 
-![Original writeup figure — PDF page 19](../../assets/mirror-image/figure-012.png)
-
-*Original writeup figure — PDF page 19*
-
-![Original writeup figure — PDF page 20](../../assets/mirror-image/figure-013.png)
-
-*Original writeup figure — PDF page 20*
-
-![Original writeup figure — PDF page 21](../../assets/mirror-image/figure-014.png)
-
-*Original writeup figure — PDF page 21*
-
-![Original writeup figure — PDF page 21](../../assets/mirror-image/figure-015.png)
-
-*Original writeup figure — PDF page 21*
+![Original writeup figure](../../assets/mirror-image/figure-015.png)
